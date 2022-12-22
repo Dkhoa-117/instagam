@@ -1,1 +1,1 @@
-# instaram
+# instagram
