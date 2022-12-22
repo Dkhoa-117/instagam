@@ -1,11 +1,12 @@
 import { initializeApp } from "firebase/app";
+import { env } from "../customEnv";
 const firebaseConfig = {
-	apiKey: env.process.API_KEY,
-	authDomain: env.process.AUTH_DOMAIN,
-	projectId: env.process.PROJECT_ID,
-	storageBucket: env.process.STORE_BUCKET,
-	messagingSenderId: env.process.MESSAGING_SENDER_ID,
-	appId: env.process.APP_ID,
-	measurementId: env.process.MEASUREMENT_ID,
+	apiKey: env.API_KEY,
+	authDomain: env.AUTH_DOMAIN,
+	projectId: env.PROJECT_ID,
+	storageBucket: env.STORE_BUCKET,
+	messagingSenderId: env.MESSAGING_SENDER_ID,
+	appId: env.APP_ID,
+	measurementId: env.MEASUREMENT_ID,
 };
 export const app = initializeApp(firebaseConfig);

@@ -4,16 +4,18 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LandingScreen from "./components/auth/Landing";
 import RegisterScreen from "./components/auth/Register";
 import LoginScreen from "./components/auth/Login";
-import React, { Component } from "react";
+import AddScreen from "./components/main/Add";
 import MainScreen from "./components/Main";
+import React, { Component } from "react";
 import { View, Text } from "react-native";
 
 // ? Configure Redux
 import { Provider } from "react-redux";
-import { legacy_createStore as createStore, applyMiddleware } from "redux";
+import { configureStore } from "@reduxjs/toolkit";
 import rootReducer from "./redux/reducers";
-import thunk from "redux-thunk";
-const store = createStore(rootReducer, applyMiddleware(thunk));
+const store = configureStore({
+	reducer: rootReducer,
+});
 
 import app from "./firebase";
 import { getAuth } from "firebase/auth";
@@ -71,7 +73,16 @@ export default class App extends Component {
 		}
 		return (
 			<Provider store={store}>
-				<MainScreen />
+				<NavigationContainer>
+					<Stack.Navigator>
+						<Stack.Screen
+							name="Main"
+							component={MainScreen}
+							options={{ headerShown: false }}
+						></Stack.Screen>
+						<Stack.Screen name="MainAdd" component={AddScreen}></Stack.Screen>
+					</Stack.Navigator>
+				</NavigationContainer>
 			</Provider>
 		);
 	}

@@ -6,11 +6,11 @@ const firestore = getFirestore(app);
 const auth = getAuth(app);
 
 export function fetchUser() {
-	return (ditchach) => {
+	return (dispatch) => {
 		getDoc(doc(firestore, "users", auth.currentUser.uid))
 			.then((snapshot) => {
 				if (snapshot.exists) {
-					ditchach({ type: USER_STATE_CHANGE, currentUser: snapshot.data() });
+					dispatch({ type: USER_STATE_CHANGE, currentUser: snapshot.data() });
 				} else {
 					console.log("does not exists");
 				}
