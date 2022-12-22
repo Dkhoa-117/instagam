@@ -80,7 +80,7 @@ export default class App extends Component {
 							component={MainScreen}
 							options={{ headerShown: false }}
 						></Stack.Screen>
-						<Stack.Screen name="MainAdd" component={AddScreen}></Stack.Screen>
+						<Stack.Screen name="Add" component={AddScreen}></Stack.Screen>
 					</Stack.Navigator>
 				</NavigationContainer>
 			</Provider>

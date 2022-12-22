@@ -35,7 +35,7 @@ export class Main extends Component {
 					listeners={({ navigation }) => ({
 						tabPress: (event) => {
 							event.preventDefault();
-							navigation.navigate("MainAdd");
+							navigation.navigate("Add");
 						},
 					})}
 					name="AddContainer"
