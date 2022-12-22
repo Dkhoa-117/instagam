@@ -1,1 +1,1 @@
-# instagam
+# instaram
