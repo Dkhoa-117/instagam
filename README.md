@@ -7,7 +7,8 @@ Building an Instagram app with <img src="https://upload.wikimedia.org/wikipedia/
 Sử dụng `Firebas Firestore & Authentication` để lưu trữ dữ liệu và xác thực người dùng. \
 Dùng `redux` để quản lý trạng thái của người dùng trong ứng dụng (đã đăng nhập hay chưa) và fetch dữ liệu người dùng cho container khi đã đăng nhập. \
 Dùng _camera_ và _image-picker_ của `expo` để sử dụng máy ảnh cũng như truy cập vào thư viện ảnh của thiết bị. \
-`reacr-navigation` được sử dụng cho các tác vụ chuyển hướng trong ứng dụng.
+`reacr-navigation` được sử dụng cho các tác vụ chuyển hướng trong ứng dụng.\
+Lưu cái bài đăng vào `Firebase Storage` và `Firestore` (khúc này chắc phải bắt đầu format thôi)
 
 ## How to do it
 

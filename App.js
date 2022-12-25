@@ -5,6 +5,7 @@ import LandingScreen from "./components/auth/Landing";
 import RegisterScreen from "./components/auth/Register";
 import LoginScreen from "./components/auth/Login";
 import AddScreen from "./components/main/Add";
+import SaveScreen from "./components/main/Save";
 import MainScreen from "./components/Main";
 import React, { Component } from "react";
 import { View, Text } from "react-native";
@@ -80,7 +81,16 @@ export default class App extends Component {
 							component={MainScreen}
 							options={{ headerShown: false }}
 						></Stack.Screen>
-						<Stack.Screen name="Add" component={AddScreen}></Stack.Screen>
+						<Stack.Screen
+							name="Add"
+							component={AddScreen}
+							navigation={this.props.navigation}
+						></Stack.Screen>
+						<Stack.Screen
+							name="Save"
+							component={SaveScreen}
+							navigation={this.props.navigation}
+						></Stack.Screen>
 					</Stack.Navigator>
 				</NavigationContainer>
 			</Provider>
