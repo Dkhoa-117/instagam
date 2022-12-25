@@ -1,10 +1,15 @@
 import React, { Component } from "react";
 import { View, Text } from "react-native";
+// ? Connect to redux
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { fetchUser } from "../redux/actions";
+import { fetchUser, fetchUserPosts } from "../redux/actions";
 import FeedScreen from "./main/Feed";
 import ProfileScreen from "./main/Profile";
+import SearchScreen from "./main/Search";
+import { app } from "../firebase";
+import { getAuth } from "firebase/auth";
+const auth = getAuth(app);
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -18,6 +23,7 @@ const EmptyComponent = () => {
 export class Main extends Component {
 	componentDidMount() {
 		this.props.fetchUser();
+		this.props.fetchUserPosts();
 	}
 	render() {
 		return (
@@ -32,6 +38,17 @@ export class Main extends Component {
 					}}
 				/>
 				<Tab.Screen
+					name="Search"
+					component={SearchScreen}
+					navigation={this.props.navigation}
+					options={{
+						tabBarIcon: ({ color, size }) => (
+							<MaterialCommunityIcons name="magnify" size={26} color={color} />
+						),
+					}}
+				/>
+				<Tab.Screen
+					// ? Custom the default navigation, open the new screen other than change it
 					listeners={({ navigation }) => ({
 						tabPress: (event) => {
 							event.preventDefault();
@@ -47,6 +64,12 @@ export class Main extends Component {
 					}}
 				/>
 				<Tab.Screen
+					listeners={({ navigation }) => ({
+						tabPress: (event) => {
+							event.preventDefault();
+							navigation.navigate("Profile", { uid: auth.currentUser.uid });
+						},
+					})}
 					name="Profile"
 					component={ProfileScreen}
 					options={{
@@ -67,5 +90,5 @@ const mapStateToProps = (store) => ({
 	currentUser: store.userState.currentUser,
 });
 const mapDispatchProps = (dispatch) =>
-	bindActionCreators({ fetchUser }, dispatch);
+	bindActionCreators({ fetchUser, fetchUserPosts }, dispatch);
 export default connect(mapStateToProps, mapDispatchProps)(Main);
