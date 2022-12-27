@@ -17,8 +17,9 @@ Sử dụng `Firebas Firestore & Authentication` để lưu trữ dữ liệu v�
 Dùng `redux` để quản lý trạng thái của người dùng trong ứng dụng (đã đăng nhập hay chưa) và fetch dữ liệu người dùng cho container khi đã đăng nhập. \
 Dùng _camera_ và _image-picker_ của `expo` để sử dụng máy ảnh cũng như truy cập vào thư viện ảnh của thiết bị. \
 `reacr-navigation` được sử dụng cho các tác vụ chuyển hướng trong ứng dụng.\
-Lưu cái bài đăng vào `Firebase Storage` và `Firestore` (khúc này chắc phải bắt đầu format thôi)
-Triển khai search người dùng (search trên firestore), và hiển thị profile theo user state (dùng redux).
+Lưu cái bài đăng vào `Firebase Storage` và `Firestore` (khúc này chắc phải bắt đầu format thôi)\
+Triển khai search người dùng (search trên firestore), và hiển thị profile theo user state (dùng redux).\
+Triển khai logic follow & unfollow bằng cách sử dụng snapshot `firestore` và `redux` để cập nhật trạng thái.
 
 ### 🌟 Các chức năng
 

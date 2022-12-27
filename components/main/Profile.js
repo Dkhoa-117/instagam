@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, FlatList, StyleSheet } from "react-native";
+import { View, Text, Image, FlatList, Button, StyleSheet } from "react-native";
 // ? Connect to redux
 import { connect } from "react-redux";
 import app from "../../firebase";
@@ -12,6 +12,8 @@ import {
 	query,
 	collection,
 	orderBy,
+	deleteDoc,
+	setDoc,
 } from "firebase/firestore";
 const auth = getAuth(app);
 const firestore = getFirestore(app);
@@ -20,11 +22,11 @@ function Profile(props) {
 	// ? Display user searched profile
 	const [user, setUser] = useState(null);
 	const [userPosts, setUserPosts] = useState([]);
+	const [following, setFollowing] = useState(false);
 
 	useEffect(() => {
-		const { currentUser, posts } = props;
-		console.log({ currentUser, posts });
-
+		const { currentUser, posts, following } = props;
+		const uid = props.route.params.uid;
 		if (props.route.params.uid === auth.currentUser.uid) {
 			setUser(currentUser);
 			setUserPosts(posts);
@@ -57,27 +59,62 @@ function Profile(props) {
 							...data,
 						};
 					});
-					console.log(posts);
-					dispatch({ type: USER_POSTS_STATE_CHANGE, posts });
 					setUserPosts(posts);
 				})
 				.catch((error) => {
 					console.log(error);
 				});
 		}
-	}, [props.route.params.uid]);
+		console.log(props.following);
+		if (props.following.indexOf(props.route.params.uid) > -1) {
+			setFollowing(true);
+		} else {
+			setFollowing(false);
+		}
+	}, [props.route.params.uid, props.following]);
+
+	const followUser = () => {
+		setDoc(
+			doc(
+				firestore,
+				"following",
+				auth.currentUser.uid,
+				"userFollowing",
+				props.route.params.uid
+			),
+			{}
+		).then(() => console.log("Follow"));
+	};
+	const unfollowUser = () => {
+		deleteDoc(
+			doc(
+				firestore,
+				"following",
+				auth.currentUser.uid,
+				"userFollowing",
+				props.route.params.uid
+			)
+		).then(() => console.log("Unfollow"));
+	};
+
 	if (user === null) {
 		return <View />;
 	}
 	return (
-		// <FlatList>
-
-		// </FlatList>
 		<View style={styles.container}>
 			<View style={styles.infoContainer}>
 				<Text>{user.name}</Text>
 				<Text>{user.email}</Text>
 			</View>
+			{props.route.params.uid !== auth.currentUser.uid ? (
+				<View>
+					{following ? (
+						<Button title="Following" onPress={() => unfollowUser()} />
+					) : (
+						<Button title="Follow" onPress={() => followUser()} />
+					)}
+				</View>
+			) : null}
 			<View style={styles.galleryContainer}>
 				<FlatList
 					numColumns={3}
@@ -97,6 +134,7 @@ function Profile(props) {
 const mapStateToProps = (store) => ({
 	currentUser: store.userState.currentUser,
 	posts: store.userState.posts,
+	following: store.userState.following,
 });
 
 const styles = StyleSheet.create({
