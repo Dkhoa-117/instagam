@@ -19,14 +19,15 @@ Dùng _camera_ và _image-picker_ của `expo` để sử dụng máy ảnh cũn
 `reacr-navigation` được sử dụng cho các tác vụ chuyển hướng trong ứng dụng.\
 Lưu cái bài đăng vào `Firebase Storage` và `Firestore` (khúc này chắc phải bắt đầu format thôi)\
 Triển khai search người dùng (search trên firestore), và hiển thị profile theo user state (dùng redux).\
-Triển khai logic follow & unfollow bằng cách sử dụng snapshot `firestore` và `redux` để cập nhật trạng thái.
+Triển khai logic follow & unfollow bằng cách sử dụng snapshot `firestore` và `redux` để cập nhật trạng thái. \
+Load new feed cho người dùng dựa vào state của users và posts mà currentUser đang follow. Tạo một reducer mới và fetch post và user data khi có cập nhật ở danh sách following.\
 
 ### 🌟 Các chức năng
 
 - Các chức năng chính của một mạng xã hội: Account, New Feed, Profile,...
 - 📸 Đăng ảnh kèm caption.
 - 🔎 Tìm kiếm người dùng khác.
-- Tương tác giữa các người dùng: ♥️ like ảnh, 📬 commment, 🏷️ tag nhau,...
+- Tương tác giữa các người dùng: ♥️ like ảnh, 📬 commment, 🏷️ tag nhau, follow...
 
 ### 📁 Files tree
 
@@ -57,11 +58,10 @@ Triển khai logic follow & unfollow bằng cách sử dụng snapshot `firestor
     │   └── index.js
     ├── constants
     │   └── index.js
-    ├── reducers
-    │   ├── index.js
-    │   └── user.js
-    └── store
-        └── index.js
+    └── reducers
+        ├── index.js
+        ├── user.js
+        └── users.js
 ```
 
 ## How to do it
