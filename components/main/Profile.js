@@ -41,7 +41,7 @@ function Profile(props) {
 					}
 				})
 				.catch((error) => {
-					console.log(error);
+					console.log("Something went wrong");
 				});
 			// ? get user searched posts
 			getDocs(
@@ -62,7 +62,7 @@ function Profile(props) {
 					setUserPosts(posts);
 				})
 				.catch((error) => {
-					console.log(error);
+					console.log("Something went wrong");
 				});
 		}
 		console.log(props.following);
@@ -83,7 +83,7 @@ function Profile(props) {
 				props.route.params.uid
 			),
 			{}
-		).then(() => console.log("Follow"));
+		); //.then(() => console.log("Follow"))
 	};
 	const unfollowUser = () => {
 		deleteDoc(
@@ -94,7 +94,7 @@ function Profile(props) {
 				"userFollowing",
 				props.route.params.uid
 			)
-		).then(() => console.log("Unfollow"));
+		); //.then(() => console.log("Unfollow"))
 	};
 	const signOut = () => {
 		auth.signOut();

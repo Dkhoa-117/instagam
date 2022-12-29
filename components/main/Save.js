@@ -81,6 +81,7 @@ export default function Save(props /** image pass along from Add */) {
 				downloadURL,
 				caption,
 				creation: serverTimestamp(),
+				likesCount: 0,
 			}
 		).then(() => {
 			// ? Return to the Main page

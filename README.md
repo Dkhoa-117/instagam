@@ -22,7 +22,8 @@ Triển khai search người dùng (search trên firestore), và hiển thị pr
 Triển khai logic follow & unfollow bằng cách sử dụng snapshot `firestore` và `redux` để cập nhật trạng thái. \
 Load new feed cho người dùng dựa vào state của users và posts mà currentUser đang follow. Tạo một reducer mới và fetch post và user data khi có cập nhật ở danh sách following.\
 Log out khỏi ứng dụng bằng auth của firebase. Clear dữ liệu người dùng trước đó bằng redux. \
-Xem comment của post, các comment được lưu trữ ở `posts/{userID}/userPosts/{postID}/comments` với dữ liệu gồm text và creator.\
+Xem comment của post, các comment được lưu trữ ở `posts/{userID}/userPosts/{postID}/comments` với dữ liệu gồm text và creator. Comment vào bài post.\
+Thiết lập logic Like của một người dùng vào post. Sử dụng `firebase-tools` (chỉ sử dụng được khi trả phí 💳) giúp xây dựng các hàm thay đổi trực tiếp trên database.
 
 ### 🌟 Các chức năng
 

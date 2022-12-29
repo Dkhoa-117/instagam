@@ -17,10 +17,12 @@ import {
 	USERS_DATA_STATE_CHANGE,
 	USERS_POSTS_STATE_CHANGE,
 	CLEAR_DATA,
+	USERS_LIKES_STATE_CHANGE,
 } from "../constants";
 const firestore = getFirestore(app);
 const auth = getAuth(app);
 
+// ? call in load of Main
 export function clearData() {
 	return (dispatch) => {
 		dispatch({ type: CLEAR_DATA });
@@ -37,7 +39,7 @@ export function fetchUser() {
 				}
 			})
 			.catch((error) => {
-				console.log({ error });
+				console.log("Something went wrong");
 			});
 	};
 }
@@ -62,7 +64,7 @@ export function fetchUserPosts() {
 				dispatch({ type: USER_POSTS_STATE_CHANGE, posts });
 			})
 			.catch((error) => {
-				console.log(error);
+				console.log("Something went wrong");
 			});
 	};
 }
@@ -79,7 +81,7 @@ export function fetchUserFollowing() {
 				dispatch({ type: USER_FOLLOWING_STATE_CHANGE, following });
 				// ? Call on fetch users data
 				for (let i = 0; i < following.length; i++) {
-					dispatch(fetchUsersData(following[i]));
+					dispatch(fetchUsersData(following[i], true));
 				}
 			}
 		),
@@ -90,7 +92,7 @@ export function fetchUserFollowing() {
 }
 
 // ? fetching the data of users that the current user is following
-export function fetchUsersData(uid) {
+export function fetchUsersData(uid, getPosts) {
 	return (dispatch, getState) => {
 		const found = getState().usersState.users.some((el) => el.uid === uid);
 		if (!found) {
@@ -103,15 +105,17 @@ export function fetchUsersData(uid) {
 							type: USERS_DATA_STATE_CHANGE,
 							user,
 						});
-						// ? Call on fetch users following posts
-						dispatch(fetchUsersFollowingPosts(user.uid));
 					} else {
 						console.log("user does not exists");
 					}
 				})
 				.catch((error) => {
-					console.log({ fetch_users_data: error });
+					console.log("Something went wrong");
 				});
+			if (getPosts) {
+				// ? Call on fetch users following posts
+				dispatch(fetchUsersFollowingPosts(uid));
+			}
 		}
 	};
 }
@@ -128,8 +132,8 @@ export function fetchUsersFollowingPosts(uid) {
 			.then((snapshot) => {
 				// ? the uid is changing in runtime, re-define the uid to make sure it works.
 				const uid = snapshot.docs[0].ref.path.split("/")[1];
+				// * const uid = snapshot.query._.C_.path.segments[1] # this may work as well
 				let user = getState().usersState.users.find((el) => el.uid === uid);
-				// *            const uid = snapshot.query._.C_.path.segments[1] # this may work as well
 				let posts = snapshot.docs.map((doc) => {
 					const data = doc.data();
 					const id = doc.id;
@@ -140,10 +144,42 @@ export function fetchUsersFollowingPosts(uid) {
 						user,
 					};
 				});
+				for (let i = 0; i < posts.length; i++) {
+					console.log(posts[i].id);
+					dispatch(fetchUsersFollowingLikes(uid, posts[i].id));
+				}
 				dispatch({ type: USERS_POSTS_STATE_CHANGE, posts, uid });
 			})
 			.catch((error) => {
-				console.log({ fetch_following_posts: error });
+				console.log("Something went wrong");
 			});
+	};
+}
+
+export function fetchUsersFollowingLikes(uid, postID) {
+	return (dispatch) => {
+		onSnapshot(
+			doc(
+				firestore,
+				"posts",
+				uid,
+				"userPosts",
+				postID,
+				"likes",
+				auth.currentUser.uid // ? looking as if user like this post
+			),
+			(snapshot) => {
+				let isCurrentUserLiked = false;
+				if (snapshot.exists()) {
+					isCurrentUserLiked = true;
+				}
+				console.log(isCurrentUserLiked);
+				dispatch({
+					type: USERS_LIKES_STATE_CHANGE,
+					postID,
+					isCurrentUserLiked,
+				});
+			}
+		);
 	};
 }

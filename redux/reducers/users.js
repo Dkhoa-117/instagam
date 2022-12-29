@@ -1,11 +1,14 @@
 import {
 	USERS_POSTS_STATE_CHANGE,
 	USERS_DATA_STATE_CHANGE,
+	USERS_LIKES_STATE_CHANGE,
+	CLEAR_DATA,
 } from "../constants";
 
 const initialState = {
 	users: [],
-	usersLoaded: 0,
+	feed: [], // ? containt posts of user's feed
+	usersFollowingLoaded: 0,
 };
 export const users = (state = initialState, action) => {
 	switch (action.type) {
@@ -17,12 +20,21 @@ export const users = (state = initialState, action) => {
 		case USERS_POSTS_STATE_CHANGE:
 			return {
 				...state,
-				usersLoaded: state.usersLoaded + 1,
-				// ? if found the user then update its posts
-				users: state.users.map((user) =>
-					user.uid === action.uid ? { ...user, posts: action.posts } : user
+				usersFollowingLoaded: state.usersFollowingLoaded + 1,
+				feed: [...state.feed, ...action.posts],
+			};
+		case USERS_LIKES_STATE_CHANGE:
+			return {
+				...state,
+				feed: state.feed.map((post) =>
+					post.id == action.postID // * the FUCK???????
+						? { ...post, isCurrentUserLiked: action.isCurrentUserLiked }
+						: post
 				),
 			};
+
+		case CLEAR_DATA:
+			return initialState;
 		default:
 			return state;
 	}
