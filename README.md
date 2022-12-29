@@ -21,7 +21,8 @@ Lưu cái bài đăng vào `Firebase Storage` và `Firestore` (khúc này chắc
 Triển khai search người dùng (search trên firestore), và hiển thị profile theo user state (dùng redux).\
 Triển khai logic follow & unfollow bằng cách sử dụng snapshot `firestore` và `redux` để cập nhật trạng thái. \
 Load new feed cho người dùng dựa vào state của users và posts mà currentUser đang follow. Tạo một reducer mới và fetch post và user data khi có cập nhật ở danh sách following.\
-Log out khỏi ứng dụng bằng auth của firebase. Clear dữ liệu người dùng trước đó bằng redux \
+Log out khỏi ứng dụng bằng auth của firebase. Clear dữ liệu người dùng trước đó bằng redux. \
+Xem comment của post, các comment được lưu trữ ở `posts/{userID}/userPosts/{postID}/comments` với dữ liệu gồm text và creator.\
 
 ### 🌟 Các chức năng
 

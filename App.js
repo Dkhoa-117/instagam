@@ -6,6 +6,7 @@ import RegisterScreen from "./components/auth/Register";
 import LoginScreen from "./components/auth/Login";
 import AddScreen from "./components/main/Add";
 import SaveScreen from "./components/main/Save";
+import CommentScreen from "./components/main/Comment";
 import MainScreen from "./components/Main";
 import React, { Component } from "react";
 import { View, Text } from "react-native";
@@ -85,6 +86,11 @@ export default class App extends Component {
 						<Stack.Screen
 							name="Save"
 							component={SaveScreen}
+							navigation={this.props.navigation}
+						></Stack.Screen>
+						<Stack.Screen
+							name="Comment"
+							component={CommentScreen}
 							navigation={this.props.navigation}
 						></Stack.Screen>
 					</Stack.Navigator>
