@@ -7,6 +7,7 @@ import {
 	fetchUser,
 	fetchUserPosts,
 	fetchUserFollowing,
+	clearData,
 } from "../redux/actions";
 import FeedScreen from "./main/Feed";
 import ProfileScreen from "./main/Profile";
@@ -26,6 +27,7 @@ const EmptyComponent = () => {
 };
 export class Main extends Component {
 	componentDidMount() {
+		this.props.clearData();
 		this.props.fetchUser();
 		this.props.fetchUserPosts();
 		this.props.fetchUserFollowing();

@@ -16,10 +16,16 @@ import {
 	USER_FOLLOWING_STATE_CHANGE,
 	USERS_DATA_STATE_CHANGE,
 	USERS_POSTS_STATE_CHANGE,
+	CLEAR_DATA,
 } from "../constants";
 const firestore = getFirestore(app);
 const auth = getAuth(app);
 
+export function clearData() {
+	return (dispatch) => {
+		dispatch({ type: CLEAR_DATA });
+	};
+}
 export function fetchUser() {
 	return (dispatch) => {
 		getDoc(doc(firestore, "users", auth.currentUser.uid))
@@ -123,7 +129,7 @@ export function fetchUsersFollowingPosts(uid) {
 				// ? the uid is changing in runtime, re-define the uid to make sure it works.
 				const uid = snapshot.docs[0].ref.path.split("/")[1];
 				let user = getState().usersState.users.find((el) => el.uid === uid);
-
+				// *            const uid = snapshot.query._.C_.path.segments[1] # this may work as well
 				let posts = snapshot.docs.map((doc) => {
 					const data = doc.data();
 					const id = doc.id;

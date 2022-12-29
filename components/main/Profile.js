@@ -96,7 +96,9 @@ function Profile(props) {
 			)
 		).then(() => console.log("Unfollow"));
 	};
-
+	const signOut = () => {
+		auth.signOut();
+	};
 	if (user === null) {
 		return <View />;
 	}
@@ -114,7 +116,9 @@ function Profile(props) {
 						<Button title="Follow" onPress={() => followUser()} />
 					)}
 				</View>
-			) : null}
+			) : (
+				<Button title="Sign Out" onPress={() => signOut()} />
+			)}
 			<View style={styles.galleryContainer}>
 				<FlatList
 					numColumns={3}
